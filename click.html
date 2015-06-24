@@ -1,0 +1,76 @@
+<html>
+	<head>
+		<title>300!</title>			
+	</head>
+
+	<body style="margin:0;">
+		<span id="countdowntimertxt" class="countdowntimer">Timer:</span>
+		<div id="myClick" style="font-size: 200; text-align: center; background-color: white; width:100%; height:100%;">
+			<div>CLICK TO 300!</div>
+		</div>
+
+
+	</body>
+
+	<script>
+
+
+		function getRandomColor () {
+		  var hex = Math.floor(Math.random() * 0xFFFFFF);
+		  return "#" + ("000000" + hex.toString(16)).substr(-6);
+		}
+				
+	    var ctr = 1;
+	    var ctrButton = document.getElementById('myClick');
+	    ctrButton.addEventListener("click", function(){
+	    	document.getElementById("myClick").innerHTML = ctr;
+	    	document.getElementById("myClick").style.fontSize = ctr*.5+100;
+	    	document.getElementById("myClick").style.backgroundColor = getRandomColor();
+
+
+	    	ctr++;
+	    	console.log(ctr);
+
+	    	if( ctr >= 300 ){
+	    		document.getElementById("myClick").innerHTML = "YOU ARE A SPARTAN!";
+	    		clearInterval(counter);
+	    	}
+	    });
+
+    var sTime = new Date().getTime();
+    var countDown = 30; // Number of seconds to count down from.        
+
+    function UpdateCountDownTime() {
+        var cTime = new Date().getTime();
+        var diff = cTime - sTime;
+        var timeStr = '';
+        var seconds = countDown - Math.floor(diff / 1000);
+        if (seconds >= 0) {
+            var hours = Math.floor(seconds / 3600);
+            var minutes = Math.floor( (seconds-(hours*3600)) / 60);
+            seconds -= (hours*3600) + (minutes*60);
+            if( minutes < 10 ){
+                timeStr = timeStr + minutes;
+            }
+            if( seconds < 10){
+                timeStr = timeStr + ":0" + seconds;
+            }else{
+                timeStr = timeStr + ":" + seconds;
+            }
+            document.getElementById("countdowntimertxt").innerHTML = timeStr;
+        }else{
+            document.getElementById("countdowntimertxt").style.display="none";
+            document.getElementById("myClick").innerHTML = "YOU ARE NO SPARTAN!"
+            clearInterval(counter);
+            alert("HA YOU SUCK. Like a lot. Like so much, wow. Jeez. It would suck to suck as much as you do. But I guess not many people experience this, because no one can suck as much as you currently do.");
+            location.reload();
+        }
+    }
+    UpdateCountDownTime();
+    var counter = setInterval(UpdateCountDownTime, 500);
+
+
+
+	</script>
+
+</html>	

@@ -1,28 +1,33 @@
 <html>
 	<head>
-		<title>Dinsoaur'sOnly</title>			
+		<title>Carbon Dating</title>			
 	</head>
 
 	<style>
-		
+		#secret:hover{
+			background-color:hotpink;
+		}
 	</style>
 
-	<body>
-		<center><h1 style="color: hotpink;">Dinosaurs Only</h1><center>
-		<img src="images/sexyTRex.png" style="margin-left:0; float:left;">
-		<form style="font-size: 25px; border: 2px solid red; float: left; width: 700px; height: 388px;">
+	<body style="margin:0px;">
+		<center><h1 style="color: hotpink;">Carbon Dating</h1><center>
+		<div style="width: 500px; margin:20px;">
+			Carbon Dating is the premiere Dinosaur dating website. This is a safe space for people of all walks of life to be happily paired with a dinosaur. We use the most advanced technology to pair you with a dinosaur that you will love more than any human. We assure you that our dinosaurs will love you longer than the jurassic period and probably <strike>will</strike> won't eat you.
+		</div>	
+		<img id="myImage" onclick="changeImage()" src="images/sexyTRex.png" style="margin: 0px; padding: 0px;; float:left;">
+		<form name="myForm" onsubmit="return validateFName()&&validateLName()&&validateEmail()&&validatePassword();" style="font-size: 25px; border: 2px solid red; float: left; width: 700px; height: 388px;">
 			<legend><b>Personal information:</b></legend>
 			First name:
-			<input type="text" name="firstname">
+			<input id="nameF" type="text" name="fname">
 			<br>
 			Last name:
-			<input type="text" name="lastname">
+			<input id="nameL" type="text" name="lname">
 			<br>
 			Email:
-			<input type="text" name="email">
+			<input id="emailID" type="text" name="email1">
 			<br>
 			Phone:
-			<input type="text" name="phone" maxlength="10">
+			<input type="text" name="phone">
 			<br>
 			City:
 			<select>
@@ -33,29 +38,94 @@
 			</select>
 			<br>
 			Zipcode:
-			<input type="text" name="zipcode" maxlength="5">
+			<input type="text" name="zipcode">
 			<br>
-			Description:
+			Bio:
 			<textarea rows="4" cols="30"></textarea>
 			<br>
-			<input type="radio" name="sex" value="male" checked>Male
+			Interested In:
+			<input type="radio" name="sex" value="male">Male
 			<input type="radio" name="sex" value="female">Female
-			<input type="radio" name="sex" value="triceratops" checked>Triceratops
+			<input type="radio" name="sex" value="triceratops">Triceratops
 			<br>
 			Sign Me Up!
-			<input type="checkbox" name="signUp" value="yes" checked>Yes!
-			<input type="checkbox" name="signUp" value="no">No I'm a Dinoracist
+			<input type="checkbox" name="signUp" value="yes">Yes!
 			<br>
 			Password:
-			<input type="password" name="password">
+			<input id="p1" onsubmit="return validatePassword()" type="password" name="password">
 			<br>
 			Confirm Password:
-			<input type="password" name="confirmPassword">
+			<input id="p2" onsubmit="return validatePassword()" type="password" name="confirmPassword">
 			<br>
-			<button type="button" value="Info">Info</button>
+			<button type="button" value="Info"><a href="http://dinosaurs.about.com/od/dailylifeofadinosaur/a/dinomating.htm" target="blank">Info</a></button>
 			<button type="reset" value="Reset">Reset</button>
 			<input type="submit" value="Submit">
 
+			<span id="secret" style="position:absolute; top: 100000px; right: 0px;" hover="background-color: pink"> <a style="color:white;" href="http://i.kinja-img.com/gawker-media/image/upload/s--UWjTc1LL--/c_fit,fl_progressive,q_80,w_636/18loothoreftqjpg.jpg" target="blank">this could be you</a> 
+			</span>
+
 		</form>
+
+		<script>
+		function changeImage() {
+		    var image = document.getElementById('myImage');
+		    if (image.src.match("sexyTRex")) {
+		        image.src = "images/triceratops.png";
+
+		    } else {
+		        image.src = "images/sexyTRex.png";
+		    }
+		}
+		
+		function validatePassword() {
+		    var pass1 = document.getElementById("p1").value;
+			var pass2 = document.getElementById("p2").value;
+				if(pass1!=pass2 || pass2==""){
+		        alert("passwords do not match");
+		        return false;
+    		}
+    			else{
+    				return true;
+    			}
+
+		}
+
+		function validateFName() {
+		    var firstName = document.getElementById("nameF").value;
+				if(firstName==""){
+		        alert("You need a first name");
+		        return false;
+    		}
+    			else{
+    				return true;
+    			}
+
+		}
+
+		function validateLName() {
+		    var LastName = document.getElementById("nameL").value;
+				if(LastName==""){
+		        alert("You need a last name");
+		        return false;
+    		}
+    			else{
+    				return true;
+    			}
+
+		}
+
+		function validateEmail() {
+		    var email = document.getElementById("emailID").value;
+				if(email=="" || email.search(@)==null){
+		        alert("You need an email");
+		        return false;
+    		}
+    		else{
+    				return true;
+    		}
+    	}
+
+		</script>
+
 	</body>
 </html>		
