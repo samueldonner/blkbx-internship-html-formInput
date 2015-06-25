@@ -15,7 +15,7 @@
 			Carbon Dating is the premiere Dinosaur dating website. This is a safe space for people of all walks of life to be happily paired with a dinosaur. We use the most advanced technology to pair you with a dinosaur that you will love more than any human. We assure you that our dinosaurs will love you longer than the jurassic period and probably <strike>will</strike> won't eat you.
 		</div>	
 		<img id="myImage" onclick="changeImage()" src="images/sexyTRex.png" style="margin: 0px; padding: 0px;; float:left;">
-		<form name="myForm" onsubmit="return validateFName()&&validateLName()&&validateEmail()&&validatePassword();" style="font-size: 25px; border: 2px solid red; float: left; width: 700px; height: 388px;">
+		<form name="myForm" action="" method="post" onsubmit="return validateForm()" style="font-size: 25px; border: 2px solid red; float: left; width: 700px; height: 388px;">
 			<legend><b>Personal information:</b></legend>
 			First name:
 			<input id="nameF" type="text" name="fname">
@@ -27,10 +27,11 @@
 			<input id="emailID" type="text" name="email1">
 			<br>
 			Phone:
-			<input type="text" name="phone">
+			<input id="phoneID" type="text" name="phone">
 			<br>
 			City:
 			<select>
+			<option id="cityID" value="chooseCity">--Choose City--</option>
 			  <option value="LA">LA</option>
 			  <option value="Sacramento">Sacramento</option>
 			  <option value="Austin">Austin</option>
@@ -38,24 +39,25 @@
 			</select>
 			<br>
 			Zipcode:
-			<input type="text" name="zipcode">
+			<input id="zipID" type="text" name="zipcode">
 			<br>
 			Bio:
-			<textarea rows="4" cols="30"></textarea>
+			<textarea id="bioID" rows="4" cols="30"></textarea>
 			<br>
 			Interested In:
-			<input type="radio" name="sex" value="male">Male
-			<input type="radio" name="sex" value="female">Female
-			<input type="radio" name="sex" value="triceratops">Triceratops
+			<input id="naID" type="radio" name="sex" value="NA" checked>Choose Sex
+			<input id="maleID" type="radio" name="sex" value="male">Male
+			<input id="femaleID" type="radio" name="sex" value="female">Female
+			<input id="triceratopsID" type="radio" name="sex" value="triceratops">Triceratops
 			<br>
 			Sign Me Up!
-			<input type="checkbox" name="signUp" value="yes">Yes!
+			<input id="checkID" type="checkbox" name="signUp" value="1">Yes!
 			<br>
 			Password:
-			<input id="p1" onsubmit="return validatePassword()" type="password" name="password">
+			<input id="p1" type="password" name="password">
 			<br>
 			Confirm Password:
-			<input id="p2" onsubmit="return validatePassword()" type="password" name="confirmPassword">
+			<input id="p2" type="password" name="confirmPassword">
 			<br>
 			<button type="button" value="Info"><a href="http://dinosaurs.about.com/od/dailylifeofadinosaur/a/dinomating.htm" target="blank">Info</a></button>
 			<button type="reset" value="Reset">Reset</button>
@@ -67,6 +69,134 @@
 		</form>
 
 		<script>
+		function validateForm(){
+			var retValue = true;
+
+			var firstName = document.getElementById("nameF").value;
+			var lastName = document.getElementById("nameL").value;
+			var email = document.getElementById("emailID").value;
+			var phone = document.getElementById("phoneID").value;
+			var city = document.getElementById("cityID").checked;
+			var zip = document.getElementById("zipID").value;
+			var bio = document.getElementById("bioID").value;
+			var na = document.getElementById("naID").value;
+			var check = document.getElementById("checkID").checked;
+			var password = document.getElementById("p1").value;
+			var password2 = document.getElementById("p2").value;
+
+			var errorMsg = "";
+
+			if(firstName == ""){
+				errorMsg = "You need a first name";
+				retValue = false;
+				document.getElementById("nameF").style.backgroundColor="red";
+			}
+			else{
+				document.getElementById("nameF").style.backgroundColor="33FF00";
+			}
+
+			if(lastName == ""){
+				errorMsg+="\nYou need a last name";
+				retValue = false;
+				document.getElementById("nameL").style.backgroundColor="red";
+			}
+			else{
+				document.getElementById("nameL").style.backgroundColor="33FF00";
+			}
+
+			if(!isEmail(email)){
+				errorMsg+="\nYou need an email";
+				retValue = false;
+				document.getElementById("emailID").style.backgroundColor="red";
+			}
+			else{
+				document.getElementById("emailID").style.backgroundColor="33FF00";
+			}
+
+			if(!isPhone(phone)){
+				errorMsg+="\nYou need a valid phone number";
+				retValue=false;
+				document.getElementById("phoneID").style.backgroundColor="red";
+			}
+			else{
+				document.getElementById("phoneID").style.backgroundColor="33FF00";
+			}
+
+			if(city==true){
+				errorMsg+="\nYou need to choose a city";
+				retValue=false;
+				document.getElementById("cityID").style.backgroundColor="red";
+			}
+			else{
+				document.getElementById("cityID").style.backgroundColor="33FF00";
+			}
+
+			if(!isZip(zip)){
+				errorMsg+="\nYou need a valid Zipcode";
+				retValue=false;
+				document.getElementById("zipID").style.backgroundColor="red";
+			}
+			else{
+				document.getElementById("zipID").style.backgroundColor="33FF00";
+			}
+
+			if(bio == ""){
+				errorMsg+="\nYou need a bio";
+				retValue = false;
+				document.getElementById("bioID").style.backgroundColor="red";
+			}
+			else{
+				document.getElementById("bioID").style.backgroundColor="33FF00";
+			}
+
+			if(naID.checked){
+				errorMsg+="\nYou need sex, I mean you need to choose a sex";
+				retValue = false;
+				document.getElementById("naID").style.backgroundColor="red";
+			}
+			else{
+				document.getElementById("naID").style.backgroundColor="33FF00";
+			}
+
+
+
+			if(check==false){
+				errorMsg+="\nMake sure to SIGN UP!";
+				retValue = false;
+				document.getElementById("checkID").style.backgroundColor="red";
+			}
+			else{
+				document.getElementById("checkID").style.backgroundColor="33FF00";
+			}
+
+			if(!isPassword(password)){
+				errorMsg+="\nPasswords must match";
+				retValue = false;
+				document.getElementById("p1").style.backgroundColor="red";
+			}
+			else{
+				document.getElementById("p1").style.backgroundColor="33FF00";
+			}
+
+			if(password2==""){
+				errorMsg+="\nYou need to confirm a password";
+				retValue = false;
+				document.getElementById("p2").style.backgroundColor="red";
+			}
+			else{
+				document.getElementById("p2").style.backgroundColor="33FF00";
+			}
+
+			if(errorMsg!=""){
+				alert(errorMsg);
+			}
+			
+
+			return retValue;
+		}
+
+
+
 		function changeImage() {
 		    var image = document.getElementById('myImage');
 		    if (image.src.match("sexyTRex")) {
@@ -77,11 +207,10 @@
 		    }
 		}
 		
-		function validatePassword() {
+		function isPassword(password) {
 		    var pass1 = document.getElementById("p1").value;
 			var pass2 = document.getElementById("p2").value;
-				if(pass1!=pass2 || pass2==""){
-		        alert("passwords do not match");
+				if(pass1!=pass2 || pass1==""){
 		        return false;
     		}
     			else{
@@ -90,40 +219,35 @@
 
 		}
 
-		function validateFName() {
-		    var firstName = document.getElementById("nameF").value;
-				if(firstName==""){
-		        alert("You need a first name");
-		        return false;
-    		}
-    			else{
-    				return true;
-    			}
 
-		}
-
-		function validateLName() {
-		    var LastName = document.getElementById("nameL").value;
-				if(LastName==""){
-		        alert("You need a last name");
-		        return false;
-    		}
-    			else{
-    				return true;
-    			}
-
-		}
-
-		function validateEmail() {
-		    var email = document.getElementById("emailID").value;
-				if(email=="" || email.search(@)==null){
-		        alert("You need an email");
+		function isEmail(email) {
+			if(email=="" || email.search("@")==-1 || email.search(".com")==-1){
 		        return false;
     		}
     		else{
     				return true;
     		}
     	}
+
+    	function isPhone() {
+		    var phone = document.getElementById("phoneID").value;
+				if(phone.length!=10 || isNaN(phone)){
+		        return false;
+    		}
+    		else{
+    			return true;
+    		}
+    	}
+
+    	function isZip() {
+		    var zip = document.getElementById("zipID").value;
+				if(zip.length!=5 || isNaN(zip)){
+				return false;
+				}
+				else{
+					return true;
+				}
+		}    
 
 		</script>
 
