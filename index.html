@@ -30,8 +30,8 @@
 			<input id="phoneID" type="text" name="phone">
 			<br>
 			City:
-			<select>
-			<option id="cityID" value="chooseCity">--Choose City--</option>
+			<select id="cityID">
+			  <option value="">--Choose City--</option>
 			  <option value="LA">LA</option>
 			  <option value="Sacramento">Sacramento</option>
 			  <option value="Austin">Austin</option>
@@ -44,13 +44,12 @@
 			Bio:
 			<textarea id="bioID" rows="4" cols="30"></textarea>
 			<br>
-			Interested In:
-			<input id="naID" type="radio" name="sex" value="NA" checked>Choose Sex
+			<span id="sexID">Interested In: (Choose Sex)</span>
 			<input id="maleID" type="radio" name="sex" value="male">Male
 			<input id="femaleID" type="radio" name="sex" value="female">Female
 			<input id="triceratopsID" type="radio" name="sex" value="triceratops">Triceratops
 			<br>
-			Sign Me Up!
+			<span id="checkFontID">Agree to the Terms:</span>
 			<input id="checkID" type="checkbox" name="signUp" value="1">Yes!
 			<br>
 			Password:
@@ -76,10 +75,10 @@
 			var lastName = document.getElementById("nameL").value;
 			var email = document.getElementById("emailID").value;
 			var phone = document.getElementById("phoneID").value;
-			var city = document.getElementById("cityID").checked;
+			var city = document.getElementById("cityID").value;
 			var zip = document.getElementById("zipID").value;
 			var bio = document.getElementById("bioID").value;
-			var na = document.getElementById("naID").value;
+			var na = getRadioValue("sex");
 			var check = document.getElementById("checkID").checked;
 			var password = document.getElementById("p1").value;
 			var password2 = document.getElementById("p2").value;
@@ -122,8 +121,8 @@
 				document.getElementById("phoneID").style.backgroundColor="33FF00";
 			}
 
-			if(city==true){
-				errorMsg+="\nYou need to choose a city";
+			if(city==""){
+				errorMsg+="\nYou need to choose a city" + city;
 				retValue=false;
 				document.getElementById("cityID").style.backgroundColor="red";
 			}
@@ -149,24 +148,23 @@
 				document.getElementById("bioID").style.backgroundColor="33FF00";
 			}
 
-			if(naID.checked){
+			if(na==false){
 				errorMsg+="\nYou need sex, I mean you need to choose a sex";
 				retValue = false;
-				document.getElementById("naID").style.backgroundColor="red";
+				document.getElementById("sexID").style.color="red";
 			}
 			else{
-				document.getElementById("naID").style.backgroundColor="33FF00";
+				document.getElementById("sexID").style.color="33FF00";
 			}
-
 
 
 			if(check==false){
-				errorMsg+="\nMake sure to SIGN UP!";
+				errorMsg+="\nAgree to the terms you tyrannical triceratops";
 				retValue = false;
-				document.getElementById("checkID").style.backgroundColor="red";
+				document.getElementById("checkFontID").style.color="red";
 			}
 			else{
-				document.getElementById("checkID").style.backgroundColor="33FF00";
+				document.getElementById("checkFontID").style.color="33FF00";
 			}
 
 			if(!isPassword(password)){
@@ -221,22 +219,37 @@
 
 
 		function isEmail(email) {
-			if(email=="" || email.search("@")==-1 || email.search(".com")==-1){
-		        return false;
-    		}
-    		else{
-    				return true;
-    		}
-    	}
+			var atSymbol = email.search("@");
+			var periodSymbol = email.search(/\./);
 
-    	function isPhone() {
-		    var phone = document.getElementById("phoneID").value;
-				if(phone.length!=10 || isNaN(phone)){
+			console.log("@"+email.search("@"));
+			console.log("."+email.search(/\./));
+
+			if(email=="" || atSymbol<1 || atSymbol>periodSymbol+1 || email.length<periodSymbol+3 ){
 		        return false;
     		}
     		else{
     			return true;
     		}
+    	}
+
+    	function isPhone() {
+		    var phone = document.getElementById("phoneID").value;
+		    console.log("phone"+Number(phone.substring(1,4)));
+		    console.log("phone"+Number(phone.substring(5,8)));
+		    console.log("phone"+Number(phone.substring(9,13)));
+
+		    if((isNaN(phone.substring(0,3)) || phone.substring(3,4)!="-" || isNaN(phone.substring(4,7)) || phone.substring(7,8)!="-" || isNaN(phone.substring(8,12)) || phone.length!=12) && (phone.length!=10 || isNaN(phone)) && ( phone.substring(0,1)!="(" || isNaN(phone.substring(1,4)) || phone.substring(4,5)!=")" || isNaN(phone.substring(5,8)) || phone.substring(8,9)!="-" || isNaN(phone.substring(9,13)) || phone.length!=13)){
+		    	return false
+		    	}
+    		else{
+    			return true;
+    		}
+    	}
+
+    	function isPhone2() {
+    		if(phone="")
+    			if()
     	}
 
     	function isZip() {
@@ -247,7 +260,17 @@
 				else{
 					return true;
 				}
-		}    
+		}   
+
+		function getRadioValue(radioName){
+			var radios = document.getElementsByName(radioName);
+			for (var i = 0, length = radios.length; i < length; i++) {
+			    if (radios[i].checked) {
+			        return radios[i].value;
+			    }
+			}
+			return false;
+		}
 
 		</script>
 
